@@ -10,7 +10,7 @@ import useAction from "./actions";
 
 const FilterItem:FC<ISidebar> = (props) => {
   const [isOpen, setOpen] = useState(false);
-  const { onSelect, onApply, isSelected } = useAction();
+  const { onSelect, onApply, selected } = useAction();
   const onToggle = () => setOpen(prev => !prev);
 
   return (
@@ -29,6 +29,7 @@ const FilterItem:FC<ISidebar> = (props) => {
               <div key={id} className="filter-item__dropdown-item">
                 <input
                   value={id}
+                  defaultChecked={selected.includes(id)}
                   type="checkbox"
                   onChange={onSelect}
                 />

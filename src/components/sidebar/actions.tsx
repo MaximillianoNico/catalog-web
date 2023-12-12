@@ -1,13 +1,23 @@
 
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const useAction = () => {
+  const _mounted = useRef(false);
   const router = useRouter();
   const params = useSearchParams();
+  const paramsCategories = params.get('categories')
 
   const [categorySelected, setCategorySelected] = useState<string[]>([]);
+
+  // Initialize Query String to filters
+  useEffect(() => {
+    if (paramsCategories && !_mounted.current) {
+      setCategorySelected(paramsCategories?.split(','));
+      _mounted.current = true
+    }
+  }, [paramsCategories])
   
   const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     let categorySelect = categorySelected
@@ -20,6 +30,7 @@ const useAction = () => {
       categorySelect = categorySelect.filter(itm => itm !== e.target.value);
     }
 
+    console.log('categorySelect: ', categorySelect)
     setCategorySelected(categorySelect);
   }
 
@@ -33,7 +44,6 @@ const useAction = () => {
       categorySelect = categorySelect.filter(itm => itm !== id);
     }
 
-    console.log('select: ', categorySelect, id, select)
     setCategorySelected(categorySelect);
     router.push(`/?categories=${categorySelect?.length ? categorySelect?.join(',') : ""}`)
   } 
