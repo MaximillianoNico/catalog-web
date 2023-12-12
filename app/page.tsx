@@ -1,6 +1,6 @@
 import DiscoveryPage from '../src/screens/discovery-page'
 import { GetCategory } from '../src/services/category';
-import { GetProductDetail, GetProducts } from '../src/services/product';
+import { GetProducts } from '../src/services/product';
 
 const getMasterData = async (categories: string[]) => {
   const [err, response] = await GetProducts(categories);

@@ -1,23 +1,34 @@
-
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useState } from 'react';
 
-const useAction = () => {
-  const _mounted = useRef(false);
-  const router = useRouter();
+const initialValues = {
+  selected: [],
+  onSelect: () => {},
+  onClick: () => {},
+  onApply: () => {},
+  isSelected: () => false
+}
+
+interface IFilterValues {
+  selected: string[],
+  onSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick: (select: boolean, id: string) => void
+  onApply: () => void
+  isSelected: (id: string, useLocalState?: boolean) => boolean
+}
+
+const FilterCtx = createContext<IFilterValues>(initialValues);
+
+interface IFilterContext {
+  children: React.ReactNode
+}
+
+export const FilterContext = ({ children }: IFilterContext) => {
   const params = useSearchParams();
-  const paramsCategories = params.get('categories')
+  const router = useRouter();
 
   const [categorySelected, setCategorySelected] = useState<string[]>([]);
-
-  // Initialize Query String to filters
-  useEffect(() => {
-    if (paramsCategories && !_mounted.current) {
-      setCategorySelected(paramsCategories?.split(','));
-      _mounted.current = true
-    }
-  }, [paramsCategories])
   
   const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     let categorySelect = categorySelected
@@ -30,7 +41,6 @@ const useAction = () => {
       categorySelect = categorySelect.filter(itm => itm !== e.target.value);
     }
 
-    console.log('categorySelect: ', categorySelect)
     setCategorySelected(categorySelect);
   }
 
@@ -46,7 +56,7 @@ const useAction = () => {
 
     setCategorySelected(categorySelect);
     router.push(`/?categories=${categorySelect?.length ? categorySelect?.join(',') : ""}`)
-  } 
+  };
 
   const onApply = () => {
     router.push(`/?categories=${categorySelected?.join(',')}`)
@@ -58,21 +68,27 @@ const useAction = () => {
       let categorySelect = stateCategories ? stateCategories?.split(',') : [];
 
       if (useLocalState) {
-        return categorySelected.includes(id)
+        return !!categorySelected.includes(id)
       }
 
-      return categorySelect.includes(id)
+      return !!categorySelect.includes(id)
     },
     [categorySelected, params]
   )
 
-  return {
+  const collectProps = {
     selected: categorySelected,
-    onSelect,
+    isSelected,
     onApply,
     onClick,
-    isSelected
-  }
+    onSelect
+  };
+
+  return (
+    <FilterCtx.Provider value={collectProps}>
+      {children}
+    </FilterCtx.Provider>
+  );
 }
 
-export default useAction;
+export const useFilter = () => useContext(FilterCtx);

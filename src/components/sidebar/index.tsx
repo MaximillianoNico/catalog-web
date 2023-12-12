@@ -1,16 +1,16 @@
 "use client"
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { CaretDown } from "@phosphor-icons/react";
 import cn from 'classnames';
 
 import useDevice from "../../hooks/use-device";
 import './sidebar.styles.scss'
 import { ICategory } from "../../screens/discovery-page";
-import useAction from "./actions";
+import { FilterContext, useFilter } from "../../contexts/filter";
 
 const FilterItem:FC<ISidebar> = (props) => {
   const [isOpen, setOpen] = useState(false);
-  const { onSelect, onApply, selected } = useAction();
+  const { onSelect, onApply, selected } = useFilter();
   const onToggle = () => setOpen(prev => !prev);
 
   return (
@@ -46,7 +46,7 @@ const FilterItem:FC<ISidebar> = (props) => {
 }
 
 const FilterMobile:FC<ISidebar> = (props) => {
-  const { onClick, isSelected } = useAction();
+  const ctx = useFilter();
 
   return (
     <div>
@@ -56,9 +56,9 @@ const FilterMobile:FC<ISidebar> = (props) => {
           ({ label, id }) => (
             <div
               key={id}
-              className={cn("filter-chips__item", { "active": !!isSelected(id) })}
+              className={cn("filter-chips__item", { "active": !!ctx.isSelected(id,) })}
               onClick={() => {
-                onClick(!isSelected(id), id)
+                ctx.onClick(!ctx.isSelected(id), id)
               }}
             >
               {label}
@@ -78,11 +78,12 @@ const Component:FC<ISidebar> = (props) => {
   const { isMobile } = useDevice()
 
   return (
-    <div className="sidebar">
-      {!isMobile && <div className="filter-label">Filters</div>}
-      {!isMobile ? <FilterItem category={props?.category} /> : <FilterMobile category={props?.category}/>}
-
-    </div>
+    <FilterContext>
+      <div className="sidebar">
+        {!isMobile && <div className="filter-label">Filters</div>}
+        {!isMobile ? <FilterItem category={props?.category} /> : <FilterMobile category={props?.category}/>}
+      </div>
+    </FilterContext>
   )
 }
 

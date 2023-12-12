@@ -5,6 +5,7 @@ interface IProps {
   params: { slug: string }
 }
 
+// Apply Metadata for Product
 export const generateMetadata = async ({ params }: IProps) => {
   const getProductDetail = async (slug: string) => {
     const [err, response] = await GetProductDetail(slug);
