@@ -51,7 +51,7 @@ const useAction = () => {
         return categorySelected.includes(id)
       }
 
-      return !!categorySelect.includes(id)
+      return categorySelect.includes(id)
     },
     [categorySelected, params]
   )

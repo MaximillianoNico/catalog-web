@@ -1,6 +1,7 @@
 "use client"
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { CaretDown } from "@phosphor-icons/react";
+import cn from 'classnames';
 
 import useDevice from "../../hooks/use-device";
 import './sidebar.styles.scss'
@@ -54,9 +55,8 @@ const FilterMobile:FC<ISidebar> = (props) => {
           ({ label, id }) => (
             <div
               key={id}
-              className={"filter-chips__item"}
+              className={cn("filter-chips__item", { "active": !!isSelected(id) })}
               onClick={() => {
-                console.log('ID: ', id);
                 onClick(!isSelected(id), id)
               }}
             >
