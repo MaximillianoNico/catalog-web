@@ -3,10 +3,11 @@ import { FC, useState } from "react";
 import { CaretDown } from "@phosphor-icons/react";
 import cn from 'classnames';
 
-import useDevice from "../../hooks/use-device";
+import useDevice from "@/src/hooks/use-device";
+import { FilterContext, useFilter } from "@/src/contexts/filter";
+
 import './sidebar.styles.scss'
-import { ICategory } from "../../screens/discovery-page";
-import { FilterContext, useFilter } from "../../contexts/filter";
+import { ISidebar } from "./types";
 
 const FilterItem:FC<ISidebar> = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -68,10 +69,6 @@ const FilterMobile:FC<ISidebar> = (props) => {
       </div>
     </div>
   )
-}
-
-interface ISidebar {
-  category: ICategory[]
 }
 
 const Component:FC<ISidebar> = (props) => {

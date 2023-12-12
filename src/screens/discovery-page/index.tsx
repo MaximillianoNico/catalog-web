@@ -1,5 +1,5 @@
-import DiscoveryLayout from '../../components/search-layout';
-import Sidebar from '../../components/sidebar'
+import DiscoveryLayout from '@/src/components/search-layout';
+import Sidebar from '@/src/components/sidebar'
 
 import SearchHeader from './partials/search-header';
 import Products from './partials/products';

@@ -1,5 +1,5 @@
-import ProductDetails from '../../src/screens/product-details'
-import { GetProductDetail } from '@/components/src/services/product';
+import ProductDetails from '@/src/screens/product-details'
+import { GetProductDetail } from '@/src/services/product';
 
 interface IProps {
   params: { slug: string }
