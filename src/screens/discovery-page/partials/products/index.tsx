@@ -19,10 +19,10 @@ const Component:FC<IProductList> = (props) => {
     <div>
       <div className='products'>
         {props?.products?.map(
-          ({ name, category, price, currency, profileImageUrl, slug }, key) => (
+          ({ name, category, price, currency, productImageUrl, slug }, key) => (
             <div key={key} className='product-item' onClick={() => handleRedirectToDetail(slug)}>
               <div className='img-product'>
-                <Image alt="" layout='fill' src={profileImageUrl} />
+                <Image alt="" layout='fill' src={productImageUrl} />
               </div>
               <div className='product-item__description'>
                 <div className='product-item__description-name'>{name}</div>

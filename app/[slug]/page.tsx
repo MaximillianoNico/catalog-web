@@ -19,7 +19,7 @@ export const generateMetadata = async ({ params }: IProps) => {
       keyword: [response?.[0]?.category],
       applicationName: 'Catalog Web Page',
       openGraph: {
-        images: [response?.[0]?.profileImageUrl],
+        images: [response?.[0]?.productImageUrl],
       },
     }
   }

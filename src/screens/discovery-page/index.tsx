@@ -16,7 +16,7 @@ export interface IProduct {
   name: string
   price: string
   currency: string
-  profileImageUrl: string
+  productImageUrl: string
   description: string
   slug: string
   id: string

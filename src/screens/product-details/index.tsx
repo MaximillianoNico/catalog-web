@@ -13,7 +13,7 @@ interface IProductDetail {
   description: string
   price: string
   currency: string
-  profileImageUrl: string
+  productImageUrl: string
 }
 
 const Component:FC<IProductDetail> = (props) => {
@@ -28,7 +28,7 @@ const Component:FC<IProductDetail> = (props) => {
       </button>
       <div className="layout-detail">
         <div className="image-product">
-          <Image alt="" src={props?.profileImageUrl} layout="fill" />
+          <Image alt="" src={props?.productImageUrl} layout="fill" />
         </div>
         <div className="product-description">
           <h1 className="product-description__name">{props?.name}</h1>
